@@ -1,0 +1,40 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  profiles:
+      active: "${CUSTOM_PROFILE:}"
+  jpa:
+    generate-ddl: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:
+  profiles: mysql
+  datasource:
+    url: jdbc:mysql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/db
+    driver-class-name: com.mysql.jdbc.Driver
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+
+---
+spring:
+  profiles: postgres
+  datasource:
+    url: "jdbc:postgresql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/db"
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.ProgressDialect
